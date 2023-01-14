@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
                 name: 'product',
                 meta: {
                     title: '商品列表',
-                    permiss: '5',
+                    permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/product.vue'),
             },
@@ -57,6 +57,15 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "tabs" */ '../views/order.vue'),
             },
+            {
+                path:'/profile',
+                name:'profile',
+                meta:{
+                    title:'个人资料',
+                    permiss:'2',
+                },
+                component:()=>import('../views/profile.vue')
+            }
         ],
     },
     {

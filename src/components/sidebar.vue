@@ -5,7 +5,7 @@
             <template v-for="item in items">
                 <!-- 有子项 -->
                 <template v-if="item.subs">
-                    <!-- 权限设置v-premiss 有权限显示该菜单项，没有不显示 -->
+                    <!-- 权限设置v-permiss 有权限显示该菜单项，没有不显示 -->
                     <el-sub-menu :index="item.index" :key="item.index" v-permiss="item.permiss">
                         <template #title>
                             <el-icon>
