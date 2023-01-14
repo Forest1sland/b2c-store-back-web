@@ -1,4 +1,4 @@
-# vue-manage-system
+# b2c-store-back-web
 
 <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-3.1.2-brightgreen.svg" alt="vue">
@@ -6,10 +6,10 @@
   <a href="https://github.com/vuejs/pinia">
     <img src="https://img.shields.io/badge/pinia-2.0.14-brightgreen.svg" alt="pinia">
   </a>
-  <a href="https://github.com/lin-xin/vue-manage-system/blob/master/LICENSE">
+  <a href="https://github.com/Forest1sland/b2c-store-back-web/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
-  <a href="https://github.com/lin-xin/vue-manage-system/releases">
+  <a href="https://github.com/Forest1sland/b2c-store-back-web/releases">
     <img src="https://img.shields.io/github/release/lin-xin/vue-manage-system.svg" alt="GitHub release">
   </a>
   <a href="https://lin-xin.gitee.io/example/work/#/donate">
@@ -18,7 +18,7 @@
 
 基于 Vue3 + pinia + Element Plus 的后台管理系统解决方案。[线上地址](https://lin-xin.gitee.io/example/work/)
 
-> Vue2 版本请看 [tag-V4.2.0](https://github.com/lin-xin/vue-manage-system/tree/V4.2.0)
+> Vue2 版本请看 [tag-V4.2.0](https://github.com/Forest1sland/b2c-store-back-web/tree/V4.2.0)
 
 [English document](https://github.com/lin-xin/manage-system/blob/master/README_EN.md)
 
@@ -63,7 +63,7 @@
 > 因为使用vite3，node版本需要 14.18+
 
 ```
-git clone https://github.com/lin-xin/vue-manage-system.git      // 把模板下载到本地
+git clone https://github.com/Forest1sland/b2c-store-back-web.git      // 把模板下载到本地
 cd vue-manage-system    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
 
@@ -134,4 +134,4 @@ const options = ref({
 
 ## License
 
-[MIT](https://github.com/lin-xin/vue-manage-system/blob/master/LICENSE)
+[MIT](https://github.com/Forest1sland/b2c-store-back-web/blob/master/LICENSE)

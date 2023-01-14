@@ -1,4 +1,4 @@
-# vue-manage-system
+# b2c-store-back-web
 
 <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-2.6.10-brightgreen.svg" alt="vue">
@@ -6,10 +6,10 @@
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--ui-2.8.2-brightgreen.svg" alt="element-ui">
   </a>
-  <a href="https://github.com/lin-xin/vue-manage-system/blob/master/LICENSE">
+  <a href="https://github.com/Forest1sland/b2c-store-back-web/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
-  <a href="https://github.com/lin-xin/vue-manage-system/releases">
+  <a href="https://github.com/Forest1sland/b2c-store-back-web/releases">
     <img src="https://img.shields.io/github/release/lin-xin/vue-manage-system.svg" alt="GitHub release">
   </a>
   <a href="https://lin-xin.gitee.io/example/work/#/donate">
@@ -18,7 +18,7 @@
 
 The web management system solution based on Vue3 and ElementPlus。[live demo](https://lin-xin.gitee.io/example/work/)
 
-Please check the version of vue2 in [tag V4.2.0](https://github.com/lin-xin/vue-manage-system/tree/V4.2.0)
+Please check the version of vue2 in [tag V4.2.0](https://github.com/Forest1sland/b2c-store-back-web/tree/V4.2.0)
 
 ## Donation
 
@@ -46,7 +46,7 @@ The scheme as a set of multi-function background frame templates, suitable for m
 
 ## Installation steps
 
-    git clone https://github.com/lin-xin/vue-manage-system.git		// Clone templates
+    git clone https://github.com/Forest1sland/b2c-store-back-web.git		// Clone templates
     cd vue-manage-system											// Enter template directory
     npm install													// Installation dependency
 
@@ -116,4 +116,4 @@ const options = ref({
 
 ## License
 
-[MIT](https://github.com/lin-xin/vue-manage-system/blob/master/LICENSE)
+[MIT](https://github.com/Forest1sland/b2c-store-back-web/blob/master/LICENSE)
