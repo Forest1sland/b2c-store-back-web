@@ -1,15 +1,13 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
+const useSidebarStore = defineStore('sidebar', () => {
 
-export const useSidebarStore = defineStore('sidebar', {
-	state: () => {
-		return {
-			collapse: false
-		};
-	},
-	getters: {},
-	actions: {
-		handleCollapse() {
-			this.collapse = !this.collapse;
-		}
+	const collapse = ref(false)
+
+
+	const handleCollapse = () => {
+		collapse.value = !collapse.value;
 	}
-});
+	return { collapse, handleCollapse }
+})
+export default useSidebarStore
