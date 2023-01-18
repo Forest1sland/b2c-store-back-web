@@ -32,10 +32,9 @@ import { ref, reactive } from 'vue';
 import useTagsStore from '../store/tags';
 import { usePermissStore } from '../store/permiss';
 import { useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import { Lock, User } from '@element-plus/icons-vue';
-import instance from '../axios/instance';
+import { instance } from '../utils/instance';
 
 
 interface LoginInfo {
@@ -66,7 +65,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.validate((valid: boolean) => {
 		if (valid) {
-
 			instance.request({
 				url: '/admin/login',
 				data: {
@@ -76,7 +74,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			}).then(res => {
 				console.log(res);
 				localStorage.setItem('ms_username', param.username);
-				const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
+				const keys = permiss.defaultList[res.userRole];
+				//设置当前用户权限
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));
 				router.push('/');

@@ -3,6 +3,12 @@ import { ElMessage } from "element-plus";
 
 import { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 
+interface R {
+    code: String
+    msg: String
+    data: any
+}
+
 class Request {
     private instance: AxiosInstance | undefined
 
@@ -11,9 +17,11 @@ class Request {
     }
     request(config: AxiosRequestConfig): Promise<AxiosResponse> {
         return new Promise<AxiosResponse>((resolve, reject) => {
-            this.instance?.request(config)
+            this.instance?.request<R>(config)
                 .then((res) => {
-                    ElMessage(res.data.msg)
+                    ElMessage({
+                        message: res.data.msg
+                    })
                     if (res.data.code == '200') {
                         resolve(res.data.data);
                     }
@@ -28,8 +36,10 @@ class Request {
         })
     }
 }
+
 const instance = new Request({
-    url: '/api',
+    baseURL: '/api',
     method: 'post'
 })
-export default instance
+
+export { instance, Request } 

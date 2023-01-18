@@ -91,7 +91,7 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { 
     document.title = `${to.meta.title} | b2c-store-back-web`;
     const role = localStorage.getItem('ms_username');
     const permiss = usePermissStore();

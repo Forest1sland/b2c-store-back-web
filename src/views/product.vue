@@ -87,7 +87,7 @@
 import { ref, reactive } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue';
-import { fetchData } from '../api/index';
+
 
 interface TableItem {
 	id: number;
@@ -107,23 +107,17 @@ const query = reactive({
 const tableData = ref<TableItem[]>([]);
 const pageTotal = ref(0);
 // 获取表格数据
-const getData = () => {
-	fetchData().then(res => {
-		tableData.value = res.data.list;
-		pageTotal.value = res.data.pageTotal || 50;
-	});
-};
-getData();
+
 
 // 查询操作
 const handleSearch = () => {
 	query.pageIndex = 1;
-	getData();
+	// getData();
 };
 // 分页导航
 const handlePageChange = (val: number) => {
 	query.pageIndex = val;
-	getData();
+	// getData();
 };
 
 // 删除操作
