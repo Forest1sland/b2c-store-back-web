@@ -2,44 +2,29 @@
 	<div>
 		<div class="container">
 			<div class="handle-box">
-				<el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-					<el-option key="1" label="广东省" value="广东省"></el-option>
-					<el-option key="2" label="湖南省" value="湖南省"></el-option>
-				</el-select>
-				<el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+
+				<el-input v-model="query.name" placeholder="商品名称" class="handle-input mr10"></el-input>
 				<el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
 				<el-button type="primary" :icon="Plus">新增</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-				<el-table-column prop="name" label="用户名"></el-table-column>
-				<el-table-column label="账户余额">
-					<template #default="scope">￥{{ scope.row.money }}</template>
-				</el-table-column>
-				<el-table-column label="头像(查看大图)" align="center">
+				<el-table-column prop="name" label="商品图片">
+
 					<template #default="scope">
-						<el-image
-							class="table-td-thumb"
-							:src="scope.row.thumb"
-							:z-index="10"
-							:preview-src-list="[scope.row.thumb]"
-							preview-teleported
-						>
+						<el-image class="table-td-thumb" :src="scope.row.thumb" :z-index="10"
+							:preview-src-list="[scope.row.thumb]" preview-teleported>
 						</el-image>
 					</template>
-				</el-table-column>
-				<el-table-column prop="address" label="地址"></el-table-column>
-				<el-table-column label="状态" align="center">
-					<template #default="scope">
-						<el-tag
-							:type="scope.row.state === '成功' ? 'success' : scope.row.state === '失败' ? 'danger' : ''"
-						>
-							{{ scope.row.state }}
-						</el-tag>
-					</template>
-				</el-table-column>
 
-				<el-table-column prop="date" label="注册时间"></el-table-column>
+
+				</el-table-column>
+				<el-table-column prop="name" label="商品名称"></el-table-column>
+				<el-table-column prop="name" label="商品分类"></el-table-column>
+				<el-table-column prop="name" label="商品简介"></el-table-column>
+				<el-table-column prop="name" label="商品原价"></el-table-column>
+				<el-table-column prop="name" label="商品特价"></el-table-column>
+				
 				<el-table-column label="操作" width="220" align="center">
 					<template #default="scope">
 						<el-button text :icon="Edit" @click="handleEdit(scope.$index, scope.row)" v-permiss="2">
@@ -52,14 +37,8 @@
 				</el-table-column>
 			</el-table>
 			<div class="pagination">
-				<el-pagination
-					background
-					layout="total, prev, pager, next"
-					:current-page="query.pageIndex"
-					:page-size="query.pageSize"
-					:total="pageTotal"
-					@current-change="handlePageChange"
-				></el-pagination>
+				<el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
+					:page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
 			</div>
 		</div>
 
@@ -130,7 +109,7 @@ const handleDelete = (index: number) => {
 			ElMessage.success('删除成功');
 			tableData.value.splice(index, 1);
 		})
-		.catch(() => {});
+		.catch(() => { });
 };
 
 // 表格编辑时弹窗和保存
@@ -166,16 +145,20 @@ const saveEdit = () => {
 .handle-input {
 	width: 300px;
 }
+
 .table {
 	width: 100%;
 	font-size: 14px;
 }
+
 .red {
 	color: #F56C6C;
 }
+
 .mr10 {
 	margin-right: 10px;
 }
+
 .table-td-thumb {
 	display: block;
 	margin: auto;

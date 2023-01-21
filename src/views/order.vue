@@ -2,38 +2,33 @@
 	<div>
 		<div class="container">
 			<div class="handle-box">
-				<el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-					<el-option key="1" label="广东省" value="广东省"></el-option>
-					<el-option key="2" label="湖南省" value="湖南省"></el-option>
-				</el-select>
+
 				<el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
 				<el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
-				<el-button type="primary" :icon="Plus">新增</el-button>
+				
 			</div>
+
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+				<el-table-column label="ID" width="55" align="center">
+					<template #default="scope">
+						{{ scope.$index + 1 }}
+					</template>
+				</el-table-column>
 				<el-table-column prop="name" label="用户名"></el-table-column>
 				<el-table-column label="账户余额">
 					<template #default="scope">￥{{ scope.row.money }}</template>
 				</el-table-column>
 				<el-table-column label="头像(查看大图)" align="center">
 					<template #default="scope">
-						<el-image
-							class="table-td-thumb"
-							:src="scope.row.thumb"
-							:z-index="10"
-							:preview-src-list="[scope.row.thumb]"
-							preview-teleported
-						>
+						<el-image class="table-td-thumb" :src="scope.row.thumb" :z-index="10"
+							:preview-src-list="[scope.row.thumb]" preview-teleported>
 						</el-image>
 					</template>
 				</el-table-column>
 				<el-table-column prop="address" label="地址"></el-table-column>
 				<el-table-column label="状态" align="center">
 					<template #default="scope">
-						<el-tag
-							:type="scope.row.state === '成功' ? 'success' : scope.row.state === '失败' ? 'danger' : ''"
-						>
+						<el-tag :type="scope.row.state === '成功' ? 'success' : scope.row.state === '失败' ? 'danger' : ''">
 							{{ scope.row.state }}
 						</el-tag>
 					</template>
@@ -52,14 +47,8 @@
 				</el-table-column>
 			</el-table>
 			<div class="pagination">
-				<el-pagination
-					background
-					layout="total, prev, pager, next"
-					:current-page="query.pageIndex"
-					:page-size="query.pageSize"
-					:total="pageTotal"
-					@current-change="handlePageChange"
-				></el-pagination>
+				<el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
+					:page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
 			</div>
 		</div>
 
@@ -87,7 +76,7 @@
 import { ref, reactive } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue';
-import { fetchData } from '../api/index';
+
 
 interface TableItem {
 	id: number;
@@ -108,10 +97,7 @@ const tableData = ref<TableItem[]>([]);
 const pageTotal = ref(0);
 // 获取表格数据
 const getData = () => {
-	fetchData().then(res => {
-		tableData.value = res.data.list;
-		pageTotal.value = res.data.pageTotal || 50;
-	});
+
 };
 getData();
 
@@ -136,7 +122,7 @@ const handleDelete = (index: number) => {
 			ElMessage.success('删除成功');
 			tableData.value.splice(index, 1);
 		})
-		.catch(() => {});
+		.catch(() => { });
 };
 
 // 表格编辑时弹窗和保存
@@ -172,16 +158,20 @@ const saveEdit = () => {
 .handle-input {
 	width: 300px;
 }
+
 .table {
 	width: 100%;
 	font-size: 14px;
 }
+
 .red {
 	color: #F56C6C;
 }
+
 .mr10 {
 	margin-right: 10px;
 }
+
 .table-td-thumb {
 	display: block;
 	margin: auto;

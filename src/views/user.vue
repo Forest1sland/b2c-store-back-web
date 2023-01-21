@@ -7,7 +7,11 @@
 				<el-button type="primary" :icon="Plus">新增</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-				<el-table-column prop="userId" label="ID" width="55" align="center"></el-table-column>
+				<el-table-column label="ID" width="55" align="center">
+					<template #default="scope">
+						{{ scope.$index + 1 }}
+					</template>
+				</el-table-column>
 				<el-table-column prop="userName" label="用户名"></el-table-column>
 				<el-table-column prop="password" label="密码"></el-table-column>
 				<el-table-column label="手机号">
@@ -17,10 +21,10 @@
 				<el-table-column label="操作" width="220" align="center">
 					<template #default="scope">
 						<el-button text :icon="Edit" @click="handleEdit(scope.$index, scope.row)" v-permiss="2">
-
 							编辑
 						</el-button>
-						<el-button text :icon="Delete" class="red" @click="handleDelete(scope.$index)" v-permiss="2">
+						<el-button text :icon="Delete" class="red" @click="handleDelete(scope.row.userId)"
+							v-permiss="2">
 							删除
 						</el-button>
 					</template>
@@ -105,14 +109,25 @@ const handlePageChange = (val: number) => {
 };
 
 // 删除操作
-const handleDelete = (index: number) => {
+const handleDelete = (userId: number) => {
 	// 二次确认删除
 	ElMessageBox.confirm('确定要删除吗？', '提示', {
 		type: 'warning'
 	})
 		.then(() => {
 			ElMessage.success('删除成功');
-			tableData.value.splice(index, 1);
+			// tableData.value.splice(index, 1);
+
+			instance.request({
+				url: '/admin/user/delete',
+				data: {
+					userId: userId,
+				}
+			}).then(res => {
+				console.log(res);
+				getData()
+
+			})
 		})
 		.catch(() => { });
 };

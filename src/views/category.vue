@@ -3,13 +3,13 @@
 		<div class="container">
 			<div class="handle-box">
 
-				<el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+				<el-input v-model="query.name" placeholder="种类名称" class="handle-input mr10"></el-input>
 				<el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
 				<el-button type="primary" :icon="Plus">新增</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-				<el-table-column prop="name" label="用户名"></el-table-column>
+				<el-table-column prop="name" label="种类名"></el-table-column>
 
 				<el-table-column label="操作" width="220" align="center">
 					<template #default="scope">
@@ -110,8 +110,7 @@ const handleEdit = (index: number, row: any) => {
 const saveEdit = () => {
 	editVisible.value = false;
 	ElMessage.success(`修改第 ${idx + 1} 行成功`);
-	tableData.value[idx].name = form.name;
-	tableData.value[idx].address = form.address;
+
 };
 </script>
 

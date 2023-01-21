@@ -73,11 +73,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				}
 			}).then(res => {
 				console.log(res);
-				localStorage.setItem('ms_username', param.username);
+				sessionStorage.setItem('ms_username', param.username);
 				const keys = permiss.defaultList[res.userRole];
 				//设置当前用户权限
 				permiss.handleSet(keys);
-				localStorage.setItem('ms_keys', JSON.stringify(keys));
+				sessionStorage.setItem('ms_keys', JSON.stringify(keys));
 				router.push('/');
 			})
 		} else {

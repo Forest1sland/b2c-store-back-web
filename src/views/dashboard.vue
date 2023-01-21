@@ -121,7 +121,7 @@ import Schart from 'vue-schart';
 import { reactive } from 'vue';
 import imgurl from '../assets/img/img.jpg';
 
-const name = localStorage.getItem('ms_username');
+const name = sessionStorage.getItem('ms_username');
 const role: string = name === 'admin' ? '超级管理员' : '普通用户';
 
 const options = {

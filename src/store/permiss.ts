@@ -6,14 +6,14 @@ interface ObjectList {
 
 export const usePermissStore = defineStore('permiss', () => {
 
-	//登录用户
-	const keys = localStorage.getItem('ms_keys');
+	//登录用户的权限
+	const keys = sessionStorage.getItem('ms_keys');
 
 	//权限设置
 	const key = keys ? ref(JSON.parse(keys)) : ref(<string[]>[])
 	const defaultList = ref(<ObjectList>{
-		1: ['1', '2'],
-		2: ['1']
+		"0": ['1', '2'],
+		"1": ['1']
 	})
 
 
