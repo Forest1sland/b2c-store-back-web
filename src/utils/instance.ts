@@ -1,45 +1,33 @@
-import axios from "axios";
-import { ElMessage } from "element-plus";
+import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 
-import { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
-
-interface R {
-    code: String
-    msg: String
-    data: any
-}
-
-class Request {
-    private instance: AxiosInstance | undefined
-
-    constructor(config: AxiosRequestConfig) {
-        this.instance = axios.create(config)
-    }
-    request(config: AxiosRequestConfig): Promise<AxiosResponse> {
-        return new Promise<AxiosResponse>((resolve, reject) => {
-            this.instance?.request<R>(config)
-                .then((res) => {
-                    ElMessage({
-                        message: res.data.msg
-                    })
-                    if (res.data.code == '200') {
-                        resolve(res.data.data);
-                    }
-
-                })
-                .catch((err) => {
-                    if (err.response.data.status != '200') {
-                        ElMessage.error(err.message)
-                    }
-                    reject(err);
-                })
-        })
-    }
-}
-
-const instance = new Request({
+const instance: AxiosInstance = axios.create({
     baseURL: '/api',
-    method: 'post'
-})
+    method: 'post',
+    timeout: 5000
+});
 
-export { instance, Request } 
+instance.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
+        return config;
+    },
+    (error: AxiosError) => {
+        console.log(error);
+        return Promise.reject();
+    }
+);
+
+instance.interceptors.response.use(
+    (response: AxiosResponse) => {
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            Promise.reject();
+        }
+    },
+    (error: AxiosError) => {
+        console.log(error);
+        return Promise.reject();
+    }
+);
+
+export { instance };

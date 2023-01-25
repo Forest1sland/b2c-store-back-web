@@ -31,21 +31,21 @@
 				</el-table-column>
 			</el-table>
 			<div class="pagination">
-				<el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
+				<el-pagination background layout="total, prev, pager, next" :current-page="query.currentPage"
 					:page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
 			</div>
 		</div>
 
 		<!-- 编辑弹出框 -->
 		<el-dialog title="编辑" v-model="editVisible" width="30%">
-			<el-form label-width="70px">
-				<el-form-item label="手机号">
+			<el-form label-width="70px" ref="ruleFormRef" :rules="rules" :model="form">
+				<el-form-item label="手机号" prop="userPhoneNumber">
 					<el-input v-model="form.userPhoneNumber"></el-input>
 				</el-form-item>
-				<el-form-item label="用户名">
+				<el-form-item label="用户名" prop="userName">
 					<el-input v-model="form.userName"></el-input>
 				</el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 					<el-input v-model="form.password"></el-input>
 				</el-form-item>
 
@@ -53,7 +53,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="editVisible = false">取 消</el-button>
-					<el-button type="primary" @click="saveEdit">确 定</el-button>
+					<el-button type="primary" @click="saveEdit(ruleFormRef)">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -65,33 +65,35 @@ import { ref, reactive } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue';
 import { instance } from '../utils/instance';
+import type { FormInstance, FormRules } from 'element-plus'
 
 interface TableItem {
 	userId: number,
-	userName: String,
-	password: String,
-	userPhoneNumber: String
+	userName: string,
+	password: string,
+	userPhoneNumber: string
 }
 
 const query = reactive({
-	address: '',
-	name: '',
-	pageIndex: 1,
+	// address: '',
+	// name: '',
+	currentPage: 1,
 	pageSize: 10
 });
 const tableData = ref<TableItem[]>([]);
 const pageTotal = ref(0);
 // 获取用户数据
 const getData = () => {
-	instance.request({
+	instance({
 		url: '/admin/user/get',
 		data: {
-			currentPage: query.pageIndex,
-			pageSize: query.pageSize
+			currentPage: query.currentPage,
+			pageSize: query.pageSize,
 		}
 	}).then(res => {
 		console.log(res);
-		tableData.value = res
+		tableData.value = res.data
+		pageTotal.value = res.total
 	})
 }
 
@@ -99,13 +101,13 @@ getData()
 
 // 查询操作
 const handleSearch = () => {
-	query.pageIndex = 1;
+	query.currentPage = 1;
 	// getData();
 };
 // 分页导航
 const handlePageChange = (val: number) => {
-	query.pageIndex = val;
-	// getData();
+	query.currentPage = val;
+	getData();
 };
 
 // 删除操作
@@ -118,7 +120,7 @@ const handleDelete = (userId: number) => {
 			ElMessage.success('删除成功');
 			// tableData.value.splice(index, 1);
 
-			instance.request({
+			instance({
 				url: '/admin/user/delete',
 				data: {
 					userId: userId,
@@ -134,25 +136,64 @@ const handleDelete = (userId: number) => {
 
 // 表格编辑时弹窗和保存
 const editVisible = ref(false);
-let form = reactive({
+const form = reactive({
+	userId: '',
 	userName: '',
 	password: '',
 	userPhoneNumber: ''
 });
-let idx: number = -1;
-const handleEdit = (index: number, row: any) => {
-	idx = index;
-	form.userName = row.userName;
+const ruleFormRef = ref<FormInstance>()
+const rules = reactive<FormRules>({
+	userName: [
+		{ required: true, message: '请输入用户名', trigger: 'blur' },
+		// { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+	],
+	password: [
+		{
+			required: true,
+			message: '请输入密码',
+			trigger: 'blur',
+		},
+	],
+	userPhoneNumber: [
+		{
+			required: true,
+			message: '请输入手机号',
+			trigger: 'blur',
+		},
+	],
 
+})
+
+
+
+const handleEdit = (index: number, row: any) => {
+	form.userId = row.userId;
+	form.userName = row.userName;
 	form.userPhoneNumber = row.userPhoneNumber
 	editVisible.value = true;
 };
-const saveEdit = () => {
+const saveEdit = async (formEl: FormInstance | undefined) => {
+	if (!formEl) return
+	await formEl.validate((valid, fields) => {
+		if (valid) {
+			instance({
+				url: '/admin/user/update',
+				data: {
+					userId: form.userId,
+					password: form.password,
+					userPhoneNumber: form.userPhoneNumber,
+				}
+			}).then(res => {
+				getData()
+			})
+		} else {
+			console.log('error submit!', fields)
+		}
+	})
+
 	editVisible.value = false;
-	ElMessage.success(`修改第 ${idx + 1} 行成功`);
-	tableData.value[idx].userName = form.userName;
-	tableData.value[idx].password = form.password;
-	tableData.value[idx].userPhoneNumber = form.userPhoneNumber;
+
 };
 </script>
 

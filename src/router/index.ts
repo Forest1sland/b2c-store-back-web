@@ -76,14 +76,6 @@ const routes: RouteRecordRaw[] = [
         },
         component: () => import(/* webpackChunkName: "login" */ '../views/login.vue'),
     },
-    {
-        path: '/403',
-        name: '403',
-        meta: {
-            title: '没有权限',
-        },
-        component: () => import(/* webpackChunkName: "403" */ '../views/403.vue'),
-    },
 ];
 
 const router = createRouter({
@@ -97,10 +89,12 @@ router.beforeEach((to, from, next) => {
     const permiss = usePermissStore();
     if (!role && to.path !== '/login') {
         next('/login');
-    } else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
-        // 如果没有权限，则进入403
-        next('/403');
-    } else {
+    }
+    // else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
+    //     // 如果没有权限，则进入403
+    //     next('/403');
+// } 
+    else {
         next();
     }
 });

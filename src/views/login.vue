@@ -65,7 +65,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.validate((valid: boolean) => {
 		if (valid) {
-			instance.request({
+			instance({
 				url: '/admin/login',
 				data: {
 					userAccount: param.username,
