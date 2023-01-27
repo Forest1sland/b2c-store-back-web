@@ -13,7 +13,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="userName" label="用户名"></el-table-column>
-				<el-table-column prop="password" label="密码"></el-table-column>
+
 				<el-table-column label="手机号">
 					<template #default="scope">{{ scope.row.userPhoneNumber }}</template>
 				</el-table-column>

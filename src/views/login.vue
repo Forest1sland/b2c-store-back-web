@@ -35,13 +35,14 @@ import { useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
 import { Lock, User } from '@element-plus/icons-vue';
 import { instance } from '../utils/instance';
-
+import useAdminUserStore from '../store/user'
 
 interface LoginInfo {
 	username: string;
 	password: string;
 }
 
+const adminUserStore = useAdminUserStore()
 
 const router = useRouter();
 const param = reactive<LoginInfo>({
@@ -74,7 +75,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			}).then(res => {
 				console.log(res);
 				sessionStorage.setItem('ms_username', param.username);
-				const keys = permiss.defaultList[res.userRole];
+				adminUserStore.AdminUser = res.data
+				const keys = permiss.defaultList[res.data.userRole];
 				//设置当前用户权限
 				permiss.handleSet(keys);
 				sessionStorage.setItem('ms_keys', JSON.stringify(keys));

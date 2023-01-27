@@ -1,12 +1,7 @@
 <template>
 	<div>
 		<div class="container">
-			<div class="handle-box">
 
-				<!-- <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input> -->
-				<!-- <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button> -->
-
-			</div>
 
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column label="ID" width="55" align="center">
@@ -16,7 +11,7 @@
 				</el-table-column>
 				<el-table-column prop="orderId" label="订单号"></el-table-column>
 				<el-table-column label="下单用户">
-					<template #default="scope">{{ scope.row.userId }}</template>
+					<template #default="scope">{{ scope.row.userName }}</template>
 				</el-table-column>
 				<el-table-column label="下单种类" align="center">
 					<template #default="scope">
@@ -32,7 +27,7 @@
 						}}
 					</template>
 				</el-table-column>
-				<el-table-column prop="addressId" label="地址"></el-table-column>
+				<el-table-column prop="addressName" label="地址"></el-table-column>
 				<el-table-column label="订单总额" align="center">
 					<template #default="scope">
 						{{
@@ -43,7 +38,11 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="date" label="下单时间"></el-table-column>
+				<el-table-column prop="orderTime" label="下单时间">
+					<template #default="scope">
+						{{ new Date(scope.row.orderTime).toLocaleDateString() }}
+					</template>
+				</el-table-column>
 
 			</el-table>
 			<div class="pagination">
@@ -71,10 +70,12 @@ interface OrderDetail {
 }
 interface TableItem {
 	addressId: number;
+	addressName: string;
 	detailList: OrderDetail[];
 	orderId: number;
 	userId: number;
 	userName: string;
+
 }
 
 const query = reactive({
@@ -101,11 +102,7 @@ const getData = () => {
 getData();
 
 
-// 查询操作
-// const handleSearch = () => {
-// 	query.currentPage = 1;
-// 	getData();
-// };
+
 // 分页导航
 const handlePageChange = (val: number) => {
 	query.currentPage = val;

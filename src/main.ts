@@ -6,9 +6,11 @@ import router from './router';
 import { usePermissStore } from './store/permiss';
 import 'element-plus/dist/index.css';
 import './assets/css/icon.css';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 
 const app = createApp(App);
-app.use(createPinia());
+app.use(createPinia().use(piniaPluginPersistedstate));
 app.use(router);
 
 // 注册elementplus图标

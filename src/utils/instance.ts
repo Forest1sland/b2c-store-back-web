@@ -5,7 +5,15 @@ const instance: AxiosInstance = axios.create({
     method: 'post',
     timeout: 5000
 });
-
+interface R<T = any> {
+    code: string;
+    msg: string;
+    data: T;
+    total: number;
+}
+interface MyAxiosResponse extends AxiosResponse {
+    data: R
+}
 instance.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         return config;
@@ -17,7 +25,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-    (response: AxiosResponse) => {
+    (response: MyAxiosResponse) => {
         if (response.status === 200) {
             return response.data;
         } else {

@@ -58,13 +58,13 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "tabs" */ '../views/order.vue'),
             },
             {
-                path:'/profile',
-                name:'profile',
-                meta:{
-                    title:'个人资料',
-                    permiss:'2',
+                path: '/profile',
+                name: 'profile',
+                meta: {
+                    title: '个人资料',
+                    permiss: '2',
                 },
-                component:()=>import('../views/profile.vue')
+                component: () => import('../views/profile.vue')
             }
         ],
     },
@@ -76,6 +76,15 @@ const routes: RouteRecordRaw[] = [
         },
         component: () => import(/* webpackChunkName: "login" */ '../views/login.vue'),
     },
+    {
+        path: '/403',
+        name: '403',
+        meta: {
+            title: '403',
+        }
+        ,
+        component: () => import('../views/403.vue')
+    }
 ];
 
 const router = createRouter({
@@ -83,17 +92,17 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => { 
+router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | b2c-store-back-web`;
     const role = sessionStorage.getItem('ms_username');
     const permiss = usePermissStore();
     if (!role && to.path !== '/login') {
         next('/login');
     }
-    // else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
-    //     // 如果没有权限，则进入403
-    //     next('/403');
-// } 
+    else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
+        // 如果没有权限，则进入403
+        next('/403');
+    }
     else {
         next();
     }
