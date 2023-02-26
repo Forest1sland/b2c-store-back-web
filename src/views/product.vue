@@ -5,7 +5,7 @@
 
 				<!-- <el-input v-model="query.name" placeholder="商品名称" class="handle-input mr10"></el-input> -->
 				<!-- <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button> -->
-				<el-button type="primary" :icon="Plus">新增</el-button>
+				<el-button type="primary" :icon="Plus" @click="handleAdd()">新增</el-button>
 			</div>
 			<el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
 				<el-table-column label="ID" width="55" align="center">
@@ -52,11 +52,23 @@
 		</div>
 
 		<!-- 编辑弹出框 -->
-		<el-dialog title="编辑" v-model="editVisible" width="30%">
+		<el-dialog :title="dialogName" v-model="editVisible" width="30%">
 			<el-form label-width="70px">
+
 				<el-form-item label="商品图片">
-					<el-input v-model="form.productName"></el-input>
+					<img :src="form.productPicture.includes('http:') ? form.productPicture : 'http://127.0.0.1:3000/' + form.productPicture"
+						class="img" height="80" width="80" :alt="form.productName">
+
+
+					<el-upload class="avatar-uploader" action="https://127.0.0.1:3000/"
+						:show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+						<img v-if="imageUrl" :src="imageUrl" class="avatar" />
+						<el-icon v-else class="avatar-uploader-icon">
+							<Plus />
+						</el-icon>
+					</el-upload>
 				</el-form-item>
+
 				<el-form-item label="商品名称">
 					<el-input v-model="form.productName"></el-input>
 				</el-form-item>
@@ -71,16 +83,16 @@
 
 
 				<el-form-item label="商品简介">
-					<el-input v-model="form.address"></el-input>
+					<el-input v-model="form.productTitle"></el-input>
 				</el-form-item>
 				<el-form-item label="商品规格">
-					<el-input v-model="form.address"></el-input>
+					<el-input v-model="form.productIntro"></el-input>
 				</el-form-item>
 				<el-form-item label="商品原价">
-					<el-input v-model="form.address"></el-input>
+					<el-input v-model="form.productPrice"></el-input>
 				</el-form-item>
 				<el-form-item label="商品特价">
-					<el-input v-model="form.address"></el-input>
+					<el-input v-model="form.productSellingPrice"></el-input>
 				</el-form-item>
 
 
@@ -90,7 +102,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="editVisible = false">取 消</el-button>
-					<el-button type="primary" @click="saveEdit">确 定</el-button>
+					<el-button type="primary" @click="confirm">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -103,6 +115,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue';
 import { instance } from '../utils/instance';
 
+import type { UploadProps } from 'element-plus'
 
 interface TableItem {
 	productId: number;
@@ -192,9 +205,10 @@ const handleDelete = (index: number) => {
 // 表格编辑时弹窗和保存
 const editVisible = ref(false);
 
-let form = reactive({
+
+let form = ref({
+	productPicture: '',
 	productName: '',
-	address: '',
 	categoryId: '',
 	productTitle: '',
 	productIntro: '',
@@ -202,17 +216,76 @@ let form = reactive({
 	productSellingPrice: '',
 
 });
+const dialogName = ref()
 
-const handleEdit = (index: number, row: any) => {
+const handleAdd = () => {
+	form.value = {
+		productPicture: '',
+		productName: '',
+		categoryId: '',
+		productTitle: '',
+		productIntro: '',
+		productPrice: '',
+		productSellingPrice: '',
 
-	form.name = row.name;
-	form.address = row.address;
+	}
+	dialogName.value = "添加商品"
 	editVisible.value = true;
 };
-const saveEdit = () => {
+
+const saveAdd = () => {
+
+	instance.request({
+		url: '/admin/product/add',
+		data: form.value
+	})
 	editVisible.value = false;
 
 };
+
+const handleEdit = (index: number, row: any) => {
+	dialogName.value = "编辑商品"
+	form.value = row
+	editVisible.value = true;
+};
+const saveEdit = () => {
+	instance.request({
+		url: '/admin/product/update',
+		data: form.value
+	})
+	editVisible.value = false;
+
+};
+
+const confirm = () => {
+	if (dialogName.value == "添加商品") {
+		saveAdd()
+	}
+	if (dialogName.value == "编辑商品") {
+		saveEdit()
+	}
+}
+
+
+const imageUrl = ref('')
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+	response,
+	uploadFile
+) => {
+	imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+	if (rawFile.type !== 'image/jpeg') {
+		ElMessage.error('Avatar picture must be JPG format!')
+		return false
+	} else if (rawFile.size / 1024 / 1024 > 2) {
+		ElMessage.error('Avatar picture size can not exceed 2MB!')
+		return false
+	}
+	return true
+}
 </script>
 
 <style scoped>

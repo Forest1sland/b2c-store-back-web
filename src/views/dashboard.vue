@@ -70,48 +70,10 @@
 						</el-card>
 					</el-col>
 				</el-row>
-				<!-- <el-card shadow="hover" style="height: 403px">
-					<template #header>
-						<div class="clearfix">
-							<span>待办事项</span>
-							<el-button style="float: right; padding: 3px 0" text>添加</el-button>
-						</div>
-					</template>
 
-					<el-table :show-header="false" :data="todoList" style="width: 100%">
-						<el-table-column width="40">
-							<template #default="scope">
-								<el-checkbox v-model="scope.row.status"></el-checkbox>
-							</template>
-						</el-table-column>
-						<el-table-column>
-							<template #default="scope">
-								<div
-									class="todo-item"
-									:class="{
-										'todo-item-del': scope.row.status
-									}"
-								>
-									{{ scope.row.title }}
-								</div>
-							</template>
-						</el-table-column>
-					</el-table>
-				</el-card> -->
 			</el-col>
 		</el-row>
-		<!-- <el-row :gutter="20">
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-				</el-card>
-			</el-col>
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-				</el-card>
-			</el-col>
-		</el-row> -->
+
 	</div>
 </template>
 
